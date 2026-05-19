@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weak Forms Cheat Sheet — Dillon Ford</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f0f;
+      --bg-card: #1a1a1a;
+      --bg-card-hover: #222222;
+      --gold: #c9a84c;
+      --gold-dim: rgba(201, 168, 76, 0.12);
+      --white: #ffffff;
+      --muted: #888888;
+      --border: #2a2a2a;
+      --radius: 12px;
+      --max-width: 520px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100dvh;
+      padding: 0 20px 72px;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 52px 0 36px;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(38px, 10vw, 52px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      line-height: 1.65;
+      color: #aaa;
+      max-width: 400px;
+    }
+
+    /* ---- Cards ---- */
+    .cards {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 18px 14px;
+      transition: border-color 0.15s;
+    }
+
+    .card.active {
+      border-color: rgba(201, 168, 76, 0.3);
+    }
+
+    .card-word {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 3px;
+    }
+
+    .card-sentence {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .card-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* ---- Play buttons ---- */
+    .play-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 9px 6px;
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .play-btn:hover {
+      border-color: #555;
+      color: var(--white);
+    }
+
+    .play-btn.playing {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: var(--gold-dim);
+    }
+
+    .play-btn.compare-btn {
+      flex: 0 0 auto;
+      padding: 9px 14px;
+      color: #666;
+    }
+
+    .play-btn.compare-btn:hover {
+      color: var(--white);
+    }
+
+    .play-btn.compare-btn.playing {
+      color: var(--gold);
+    }
+
+    .btn-icon {
+      font-size: 9px;
+      line-height: 1;
+    }
+
+    /* ---- Footer ---- */
+    .footer {
+      max-width: var(--max-width);
+      margin: 52px auto 0;
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <p class="eyebrow">Dillon Ford · American Accent Coach</p>
+  <h1 class="title">Weak Forms</h1>
+  <p class="subtitle">When these words are unstressed, they shrink into much smaller versions of themselves. Tap to hear the difference.</p>
+</header>
+
+<main class="cards" id="cards"></main>
+
+<footer class="footer">
+  <p>© Dillon Ford · <a href="https://accentchange.com">accentchange.com</a></p>
+</footer>
+
+<script>
+  const words = [
+    { word: 'was',    sentence: 'I was seen',                  slug: 'was'     },
+    { word: 'of',     sentence: 'ahead of her',                slug: 'of'      },
+    { word: 'does',   sentence: 'she does things',             slug: 'does'    },
+    { word: 'because',sentence: 'I smiled because of you',     slug: 'because' },
+    { word: 'some',   sentence: "He's got some nerve",         slug: 'some'    },
+    { word: 'but',    sentence: "He's cool but I don't like him", slug: 'but'  },
+    { word: 'them',   sentence: 'Help them move',              slug: 'them'    },
+    { word: 'have',   sentence: 'I have seen',                 slug: 'have'    },
+    { word: 'had',    sentence: 'I had seen',                  slug: 'had'     },
+    { word: 'at',     sentence: 'look at her',                 slug: 'at'      },
+    { word: 'as',     sentence: 'done as well',                slug: 'as'      },
+    { word: 'and',    sentence: 'cats and dogs',               slug: 'and'     },
+    { word: 'can',    sentence: 'she can do things',           slug: 'can'     },
+    { word: 'am',     sentence: 'I am the best',               slug: 'am'      },
+    { word: 'that',   sentence: 'I know that dog',             slug: 'that'    },
+    { word: 'are',    sentence: 'You are amazing',             slug: 'are'     },
+    { word: 'or',     sentence: 'cats or dogs',                slug: 'or'      },
+    { word: 'for',    sentence: 'look for her',                slug: 'for'     },
+    { word: 'their',  sentence: "it's their cat",              slug: 'their'   },
+    { word: "they're",sentence: "They're my friends",          slug: 'theyre'  },
+    { word: 'there',  sentence: 'There he is doing something', slug: 'there'   },
+    { word: 'where',  sentence: 'see where he is',             slug: 'where'   },
+    { word: 'good',   sentence: 'I like good food',            slug: 'good'    },
+    { word: 'should', sentence: 'You should do something',     slug: 'should'  },
+    { word: 'would',  sentence: 'You would do something',      slug: 'would'   },
+    { word: 'could',  sentence: 'You could do something',      slug: 'could'   },
+    { word: 'a',      sentence: "he's a doctor",               slug: 'a'       },
+    { word: 'the',    sentence: "he's the doctor",             slug: 'the'     },
+  ];
+
+  let currentAudio = null;
+  let currentBtn = null;
+  let currentCard = null;
+
+  function stopCurrent() {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
+    if (currentBtn) {
+      currentBtn.classList.remove('playing');
+      setIcon(currentBtn, false);
+    }
+    if (currentCard) {
+      currentCard.classList.remove('active');
+    }
+    currentAudio = null;
+    currentBtn = null;
+    currentCard = null;
+  }
+
+  function setIcon(btn, playing) {
+    const icon = btn.querySelector('.btn-icon');
+    if (playing) {
+      icon.textContent = '■';
+    } else {
+      icon.textContent = btn.dataset.type === 'compare' ? '⇄' : '▶';
+    }
+  }
+
+  function playAudio(btn, src, card) {
+    if (currentBtn === btn) {
+      stopCurrent();
+      return;
+    }
+    stopCurrent();
+
+    const audio = new Audio(src);
+    currentAudio = audio;
+    currentBtn = btn;
+    currentCard = card;
+
+    btn.classList.add('playing');
+    card.classList.add('active');
+    setIcon(btn, true);
+
+    audio.play().catch(() => stopCurrent());
+
+    audio.addEventListener('ended', () => {
+      btn.classList.remove('playing');
+      card.classList.remove('active');
+      setIcon(btn, false);
+      currentAudio = null;
+      currentBtn = null;
+      currentCard = null;
+    });
+  }
+
+  const container = document.getElementById('cards');
+
+  words.forEach(({ word, sentence, slug }) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-word">${word}</div>
+      <div class="card-sentence">${sentence}</div>
+      <div class="card-buttons">
+        <button class="play-btn" data-type="strong" data-src="audio/${slug}-strong.m4a">
+          <span class="btn-icon">▶</span> Strong
+        </button>
+        <button class="play-btn compare-btn" data-type="compare" data-src="audio/${slug}-compare.m4a">
+          <span class="btn-icon">⇄</span> Compare
+        </button>
+        <button class="play-btn" data-type="weak" data-src="audio/${slug}-weak.m4a">
+          <span class="btn-icon">▶</span> Weak
+        </button>
+      </div>
+    `;
+
+    card.querySelectorAll('.play-btn').forEach(btn => {
+      btn.addEventListener('click', () => playAudio(btn, btn.dataset.src, card));
+    });
+
+    container.appendChild(card);
+  });
+</script>
+
+</body>
+</html>
