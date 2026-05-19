@@ -294,7 +294,6 @@
     currentCard = card;
 
     audio.src = src;
-    audio.load();
     audio.play().catch(() => stopCurrent());
 
     btn.classList.add('playing');
