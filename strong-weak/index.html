@@ -159,19 +159,47 @@
     .footer {
       max-width: var(--max-width);
       margin: 52px auto 0;
-      font-size: 13px;
+    }
+
+    .footer-cta {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 20px;
+      margin-bottom: 24px;
+      text-decoration: none;
+      display: block;
+      transition: border-color 0.15s;
+    }
+
+    .footer-cta:hover {
+      border-color: var(--gold);
+    }
+
+    .footer-cta p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    .footer-cta strong {
+      color: var(--white);
+    }
+
+    .footer-cta .cta-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .footer-copyright {
+      font-size: 12px;
       color: var(--muted);
       text-align: center;
-      line-height: 1.6;
-    }
-
-    .footer a {
-      color: var(--gold);
-      text-decoration: none;
-    }
-
-    .footer a:hover {
-      text-decoration: underline;
+      padding-bottom: 8px;
     }
   </style>
 </head>
@@ -186,7 +214,11 @@
 <main class="cards" id="cards"></main>
 
 <footer class="footer">
-  <p>© Dillon Ford · <a href="https://accentchange.com">accentchange.com</a></p>
+  <a class="footer-cta" href="https://www.instagram.com/accentchange/" target="_blank" rel="noopener">
+    <p class="cta-label">Free offer</p>
+    <p>Unsure what in your accent to focus on? <strong>Send me a DM with a recording of yourself</strong> and I'll tell you the #1 sound or concept you should work on first. (free)</p>
+  </a>
+  <p class="footer-copyright">© Accent Change</p>
 </footer>
 
 <script>
