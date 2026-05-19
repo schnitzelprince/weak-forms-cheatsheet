@@ -254,25 +254,24 @@
     { word: 'the',    sentence: "he's the doctor",             slug: 'the'     },
   ];
 
-  const audio = document.createElement('audio');
-  document.body.appendChild(audio);
-
+  let currentAudio = null;
   let currentBtn = null;
   let currentCard = null;
 
   function stopCurrent() {
-    audio.pause();
-    audio.currentTime = 0;
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
     if (currentBtn) {
       currentBtn.classList.remove('playing');
       setIcon(currentBtn, false);
     }
     if (currentCard) currentCard.classList.remove('active');
+    currentAudio = null;
     currentBtn = null;
     currentCard = null;
   }
-
-  audio.addEventListener('ended', () => stopCurrent());
 
   function setIcon(btn, playing) {
     const icon = btn.querySelector('.btn-icon');
@@ -290,15 +289,25 @@
     }
     stopCurrent();
 
+    const audio = new Audio(src);
+    currentAudio = audio;
     currentBtn = btn;
     currentCard = card;
-
-    audio.src = src;
-    audio.play().catch(() => stopCurrent());
 
     btn.classList.add('playing');
     card.classList.add('active');
     setIcon(btn, true);
+
+    audio.play().catch(() => stopCurrent());
+
+    audio.addEventListener('ended', () => {
+      btn.classList.remove('playing');
+      card.classList.remove('active');
+      setIcon(btn, false);
+      currentAudio = null;
+      currentBtn = null;
+      currentCard = null;
+    });
   }
 
   const container = document.getElementById('cards');
