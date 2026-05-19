@@ -1,13 +1,5 @@
 {
   "redirects": [
     { "source": "/", "destination": "/strong-weak", "permanent": false }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)\\.m4a",
-      "headers": [
-        { "key": "Content-Type", "value": "audio/mp4" }
-      ]
-    }
   ]
 }
